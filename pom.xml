@@ -233,6 +233,7 @@
         <module>admin</module>
         <module>framework</module>
         <module>common</module>
+        <module>mockserver</module>
     </modules>
     <packaging>pom</packaging>
 
