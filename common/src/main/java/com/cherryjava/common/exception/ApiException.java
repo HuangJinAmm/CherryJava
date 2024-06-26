@@ -1,0 +1,102 @@
+package com.cherryjava.common.exception;
+
+import cn.hutool.core.util.StrUtil;
+import com.cherryjava.common.exception.error.ErrorCodeInterface;
+import com.cherryjava.common.utils.i18n.MessageUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+
+/**
+ * 统一异常类
+ *
+ * @author hjamm
+ */
+public class ApiException extends RuntimeException {
+
+    private static final Logger log = LoggerFactory.getLogger(ApiException.class);
+
+    protected ErrorCodeInterface errorCode;
+
+    protected String message;
+
+    protected String i18nMessage;
+
+    /**
+     * 如果有一些特殊的数据  可以放在这个payload里面
+     * 有时候错误的返回信息太少  不便前端处理的话  可以放在这个payload字段当中
+     * 比如你做了一个大批量操作，操作ID为1~10的实体， 其中1~5成功   6~10失败
+     * 你可以将这些相关信息放在这个payload中
+     */
+    protected HashMap<String, Object> payload;
+
+    public ApiException(ErrorCodeInterface errorCode) {
+        fillErrorCode(errorCode);
+    }
+
+    public ApiException(ErrorCodeInterface errorCode, Object... args) {
+        fillErrorCode(errorCode, args);
+    }
+
+    /**
+     * 注意  如果是try catch的情况下捕获异常 并转为ApiException的话  一定要填入Throwable e
+     *
+     * @param e         捕获到的原始异常
+     * @param errorCode 错误码
+     * @param args      错误详细信息参数
+     */
+    public ApiException(Throwable e, ErrorCodeInterface errorCode, Object... args) {
+        super(e);
+        fillErrorCode(errorCode, args);
+    }
+
+    private void fillErrorCode(ErrorCodeInterface errorCode, Object... args) {
+        this.errorCode = errorCode;
+        this.message = StrUtil.format(errorCode.message(), args);
+
+        try {
+            this.i18nMessage = MessageUtils.message(errorCode.i18nKey(), args);
+        } catch (Exception e) {
+            log.error("could not found i18nMessage entry for key: " + errorCode.i18nKey());
+        }
+    }
+
+    @Override
+    public String getMessage() {
+        return i18nMessage != null ? i18nMessage : message;
+    }
+
+    @Override
+    public String getLocalizedMessage() {
+        return i18nMessage != null ? i18nMessage : message;
+    }
+
+    public ErrorCodeInterface getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(ErrorCodeInterface errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getI18nMessage() {
+        return i18nMessage;
+    }
+
+    public void setI18nMessage(String i18nMessage) {
+        this.i18nMessage = i18nMessage;
+    }
+
+    public HashMap<String, Object> getPayload() {
+        return payload;
+    }
+
+    public void setPayload(HashMap<String, Object> payload) {
+        this.payload = payload;
+    }
+}
