@@ -18,22 +18,23 @@ public class MockServer implements InitializingBean {
     private WireMockServer mockServer;
 
     public MockServer(Integer port, String path) {
-        try {
-            ClasspathFileSource classpathFileSource = new ClasspathFileSource(path);
-            JsonFileMappingsSource jsonFileMappingsSource = new JsonFileMappingsSource(classpathFileSource);
-            FakeTemplateTransformer fakeTemplateTransformer = new FakeTemplateTransformer();
-            FakeTemplateHelpers[] values = FakeTemplateHelpers.values();
-            for (FakeTemplateHelpers fakeTemplateHelpers : values) {
-                fakeTemplateTransformer.addHelpers(fakeTemplateHelpers.name(), fakeTemplateHelpers);
-            }
-            fakeTemplateTransformer.init();
-            WireMockConfiguration config = WireMockConfiguration.options().mappingSource(jsonFileMappingsSource).notifier(new ConsoleNotifier(true)).extensions(fakeTemplateTransformer).port(port);
-            WireMockServer wireMockServer = new WireMockServer(config);
-            this.mockServer = wireMockServer;
-
-        } catch (Exception e) {
-            log.debug("mocksever started failed" + e.getMessage());
+        ClasspathFileSource classpathFileSource = new ClasspathFileSource(path);
+        JsonFileMappingsSource jsonFileMappingsSource = new JsonFileMappingsSource(classpathFileSource);
+        FakeTemplateTransformer fakeTemplateTransformer = new FakeTemplateTransformer();
+        FakeTemplateHelpers[] values = FakeTemplateHelpers.values();
+        for (FakeTemplateHelpers fakeTemplateHelpers : values) {
+            fakeTemplateTransformer.addHelpers(fakeTemplateHelpers.name(), fakeTemplateHelpers);
         }
+        fakeTemplateTransformer.init();
+        WireMockConfiguration config = WireMockConfiguration
+                .options()
+                .mappingSource(jsonFileMappingsSource)
+                .notifier(new ConsoleNotifier(true))
+                .extensions(fakeTemplateTransformer)
+                .port(port);
+        WireMockServer wireMockServer = new WireMockServer(config);
+        this.mockServer = wireMockServer;
+
     }
 
     @Override
