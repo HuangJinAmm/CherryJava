@@ -1,0 +1,12 @@
+mock:
+  enable: true
+  port: 18000
+  # json文件配置地址
+  filepath: ./mocks
+
+
+
+
+
+
+

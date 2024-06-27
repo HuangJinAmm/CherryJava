@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
+import java.util.function.Consumer;
+
 public class MockServer implements InitializingBean {
 
     private static final Logger log = LoggerFactory.getLogger(MockServer.class);
@@ -20,7 +22,8 @@ public class MockServer implements InitializingBean {
             ClasspathFileSource classpathFileSource = new ClasspathFileSource(path);
             JsonFileMappingsSource jsonFileMappingsSource = new JsonFileMappingsSource(classpathFileSource);
             FakeTemplateTransformer fakeTemplateTransformer = new FakeTemplateTransformer();
-            for (FakeTemplateHelpers fakeTemplateHelpers : FakeTemplateHelpers.values()) {
+            FakeTemplateHelpers[] values = FakeTemplateHelpers.values();
+            for (FakeTemplateHelpers fakeTemplateHelpers : values) {
                 fakeTemplateTransformer.addHelpers(fakeTemplateHelpers.name(), fakeTemplateHelpers);
             }
             fakeTemplateTransformer.init();
@@ -36,5 +39,11 @@ public class MockServer implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         mockServer.start();
+        log.debug("mockserver 启动成功");
+    }
+
+    public MockServer addStub(Consumer<WireMockServer> stubFn) {
+        stubFn.accept(this.mockServer);
+        return this;
     }
 }

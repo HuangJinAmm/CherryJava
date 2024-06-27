@@ -9,9 +9,24 @@ import com.mifmif.common.regex.Generex;
 import java.io.IOException;
 
 public enum FakeTemplateHelpers implements Helper<Object> {
+    /**
+     * 中文姓名
+     */
+    CnName(new FakeName()),
+    Regex(new GenerexHelper()),
+    /**
+     * 手机号
+     */
     Phone(new GenerexHandleHelper("1[3456789]\\d{9}")),
-    IdCard(new GenerexHandleHelper("[1-9]\\d{5}(19|20)\\d{2}((0[1-9)|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx")),
+    /**
+     * 身份证
+     */
+    IdCard(new GenerexHandleHelper("[1-9]\\d{5}(19|20)\\d{2}((0[1-9)|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]")),
+    /**
+     * 邮件
+     */
     Email(new GenerexHandleHelper("\\s{6,10}@(test|example).com(.cn)?"));
+
     private HandlebarsHelper<Object> handlebarsHelper;
 
     FakeTemplateHelpers(HandlebarsHelper<Object> handlebarsHelper) {
@@ -28,7 +43,7 @@ class FakeName extends HandlebarsHelper<Object> {
     private static String[] xing;
     private static String[] ming;
 
-    {
+    static {
         xing = ("赵,钱,孙,李,周,吴,郑,王,冯,陈,褚,卫,蒋,沈,韩,杨,朱,秦,尤,许,\n" +
                 "何,吕,施,张,孔,曹,严,华,金,魏,陶,姜,戚,谢,邹,喻,柏,水,窦,章,\n" +
                 "云,苏,潘,葛,奚,范,彭,郎,鲁,韦,昌,马,苗,凤,花,方,俞,任,袁,柳,\n" +

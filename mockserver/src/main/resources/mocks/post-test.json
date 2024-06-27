@@ -1,0 +1,17 @@
+{
+  "request": {
+    "url": "/mock/test",
+    "method": "POST",
+    "bodyPatterns": {
+      "expression": "$.test",
+      "equalTo": "hello"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": "{'test':'world'}",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

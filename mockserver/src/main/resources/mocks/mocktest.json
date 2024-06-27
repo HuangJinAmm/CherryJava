@@ -1,0 +1,10 @@
+{
+  "request": {
+    "url": "/mock/test",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": "hello mock"
+  }
+}
