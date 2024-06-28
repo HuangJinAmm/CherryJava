@@ -18,14 +18,17 @@
 
         <dependency>
             <groupId>com.cherryjava</groupId>
+            <artifactId>basesys</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.cherryjava</groupId>
             <artifactId>framework</artifactId>
-            <version>1.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.cherryjava</groupId>
             <artifactId>mockserver</artifactId>
-            <version>1.0.0</version>
         </dependency>
 
         <dependency>

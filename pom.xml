@@ -161,27 +161,6 @@
             </dependency>
 
 
-            <!-- admin管理模块 -->
-            <dependency>
-                <groupId>com.cherryjava</groupId>
-                <artifactId>admin</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-
-            <!-- 核心模块-->
-            <dependency>
-                <groupId>com.cherryjava</groupId>
-                <artifactId>framework</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <!-- 通用工具-->
-            <dependency>
-                <groupId>com.cherryjava</groupId>
-                <artifactId>common</artifactId>
-                <version>${project.version}</version>
-            </dependency>
 
             <!-- hutool common tools-->
             <dependency>
@@ -226,6 +205,41 @@
                 <version>${mybatis-plus.version}</version>
             </dependency>
 
+
+            <!-- admin管理模块 -->
+            <dependency>
+                <groupId>com.cherryjava</groupId>
+                <artifactId>admin</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
+            <!-- 核心模块-->
+            <dependency>
+                <groupId>com.cherryjava</groupId>
+                <artifactId>framework</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- 通用工具-->
+            <dependency>
+                <groupId>com.cherryjava</groupId>
+                <artifactId>common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.cherryjava</groupId>
+                <artifactId>basesys</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.cherryjava</groupId>
+                <artifactId>mockserver</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -234,6 +248,7 @@
         <module>framework</module>
         <module>common</module>
         <module>mockserver</module>
+        <module>basesys</module>
     </modules>
     <packaging>pom</packaging>
 

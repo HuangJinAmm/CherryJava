@@ -1,4 +1,4 @@
-package com.cherryjava;
+package com.cherryjava.admin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,7 +16,8 @@ public class App extends SpringBootServletInitializer {
 //        String s = System.getProperty("java.version");
 //        System.out.println(s);
         SpringApplication.run(App.class, args);
-        String successMsg = "｀　　　　启　　　　　　　　　　　　　　动　　　　　　　　　　　成　成　　　　　　　　　　　功\n" +
+        String successMsg =
+                "｀　　　　启　　　　　　　　　　　　　　动　　　　　　　　　　　成　成　　　　　　　　　　　功\n" +
                 "　启启启启启启启启启启　　　动动动动　　动　　　　　　　　　　　成　　成　　　功功功功功　　功\n" +
                 "　启　　　　　　　　启　　　　　　　　动动动动动　　　成成成成成成成成成成　　　　功　　功功功功功功\n" +
                 "　启　　　　　　　　启　　　　　　　　　动　　动　　　成　　　　成　　　　　　　　功　　　　功　　功\n" +

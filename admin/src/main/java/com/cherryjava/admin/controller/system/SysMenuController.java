@@ -1,0 +1,107 @@
+package com.cherryjava.admin.controller.system;
+
+import cn.hutool.core.lang.tree.Tree;
+import com.cherryjava.admin.accessLog.AccessLog;
+import com.cherryjava.basesys.system.menu.MenuApplicationService;
+import com.cherryjava.basesys.system.menu.command.AddMenuCommand;
+import com.cherryjava.basesys.system.menu.command.UpdateMenuCommand;
+import com.cherryjava.basesys.system.menu.dto.MenuDTO;
+import com.cherryjava.basesys.system.menu.dto.MenuDetailDTO;
+import com.cherryjava.basesys.system.menu.query.MenuQuery;
+import com.cherryjava.common.core.base.BaseController;
+import com.cherryjava.common.core.dto.ResponseDTO;
+import com.cherryjava.common.enums.common.BusinessTypeEnum;
+import com.cherryjava.framework.user.AuthenticationUtils;
+import com.cherryjava.framework.user.web.SystemLoginUser;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+import java.util.List;
+
+/**
+ * 菜单信息
+ *
+ * @author valarchie
+ */
+@RestController
+@RequestMapping("/system/menus")
+@Validated
+public class SysMenuController extends BaseController {
+
+    private final MenuApplicationService menuApplicationService;
+
+    public SysMenuController(MenuApplicationService menuApplicationService) {
+        this.menuApplicationService = menuApplicationService;
+    }
+
+    /**
+     * 获取菜单列表
+     */
+    @PreAuthorize("@permission.has('system:menu:list')")
+    @GetMapping
+    public ResponseDTO<List<MenuDTO>> menuList(MenuQuery menuQuery) {
+        List<MenuDTO> menuList = menuApplicationService.getMenuList(menuQuery);
+        return ResponseDTO.ok(menuList);
+    }
+
+    /**
+     * 根据菜单编号获取详细信息
+     */
+    @PreAuthorize("@permission.has('system:menu:query')")
+    @GetMapping(value = "/{menuId}")
+    public ResponseDTO<MenuDetailDTO> menuInfo(@PathVariable @NotNull @PositiveOrZero Long menuId) {
+        MenuDetailDTO menu = menuApplicationService.getMenuInfo(menuId);
+        return ResponseDTO.ok(menu);
+    }
+
+    /**
+     * 获取菜单下拉树列表
+     */
+    @GetMapping("/dropdown")
+    public ResponseDTO<List<Tree<Long>>> dropdownList() {
+        SystemLoginUser loginUser = AuthenticationUtils.getSystemLoginUser();
+        List<Tree<Long>> dropdownList = menuApplicationService.getDropdownList(loginUser);
+        return ResponseDTO.ok(dropdownList);
+    }
+
+    /**
+     * 新增菜单
+     * 需支持一级菜单以及 多级菜单 子菜单为一个 或者 多个的情况
+     * 隐藏菜单不显示  以及rank排序
+     * 内链 和 外链
+     */
+    @PreAuthorize("@permission.has('system:menu:add')")
+    @AccessLog(title = "菜单管理", businessType = BusinessTypeEnum.ADD)
+    @PostMapping
+    public ResponseDTO<Void> add(@RequestBody AddMenuCommand addCommand) {
+        menuApplicationService.addMenu(addCommand);
+        return ResponseDTO.ok();
+    }
+
+    /**
+     * 修改菜单
+     */
+    @PreAuthorize("@permission.has('system:menu:edit')")
+    @AccessLog(title = "菜单管理", businessType = BusinessTypeEnum.MODIFY)
+    @PutMapping("/{menuId}")
+    public ResponseDTO<Void> edit(@PathVariable("menuId") Long menuId, @RequestBody UpdateMenuCommand updateCommand) {
+        updateCommand.setMenuId(menuId);
+        menuApplicationService.updateMenu(updateCommand);
+        return ResponseDTO.ok();
+    }
+
+    /**
+     * 删除菜单
+     */
+    @PreAuthorize("@permission.has('system:menu:remove')")
+    @AccessLog(title = "菜单管理", businessType = BusinessTypeEnum.DELETE)
+    @DeleteMapping("/{menuId}")
+    public ResponseDTO<Void> remove(@PathVariable("menuId") Long menuId) {
+        menuApplicationService.remove(menuId);
+        return ResponseDTO.ok();
+    }
+
+}

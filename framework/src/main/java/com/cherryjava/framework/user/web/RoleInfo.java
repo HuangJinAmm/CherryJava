@@ -1,7 +1,10 @@
 package com.cherryjava.framework.user.web;
 
+
 import org.apache.commons.collections4.SetUtils;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -14,7 +17,7 @@ public class RoleInfo {
     public static final String ADMIN_ROLE_KEY = "admin";
     public static final String ALL_PERMISSIONS = "*:*:*";
 
-    public static final Set<String> ADMIN_PERMISSIONS = SetUtils.hashSet(ALL_PERMISSIONS);
+    public static final Set<String> ADMIN_PERMISSIONS = new HashSet(Arrays.asList(ALL_PERMISSIONS));
 
     public RoleInfo() {
     }

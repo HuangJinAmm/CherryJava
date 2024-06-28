@@ -104,4 +104,27 @@ public abstract class AbstractQuery<T> {
         return isAsc;
     }
 
+    public String getOrderColumn() {
+        return orderColumn;
+    }
+
+    public void setOrderColumn(String orderColumn) {
+        this.orderColumn = orderColumn;
+    }
+
+    public String getOrderDirection() {
+        return orderDirection;
+    }
+
+    public void setOrderDirection(String orderDirection) {
+        this.orderDirection = orderDirection;
+    }
+
+    public String getTimeRangeColumn() {
+        return timeRangeColumn;
+    }
+
+    public void setTimeRangeColumn(String timeRangeColumn) {
+        this.timeRangeColumn = timeRangeColumn;
+    }
 }
